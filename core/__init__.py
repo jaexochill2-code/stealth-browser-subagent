@@ -1,5 +1,5 @@
 """
-Core engine modules for stealth browser automation, perception, and human kinematics.
+Core engine modules for stealth browser automation, perception, human kinematics, and compliance reading.
 """
 
 from .stealth_browser import StealthBrowserLauncher
@@ -8,6 +8,7 @@ from .perception import VisualPerceptionEngine
 from .waf_solver import WAFChallengeSolver
 from .form_agent import FormFillEngine
 from .fast_client import FastHarvestClient
+from .compliance_reader import ComplianceReadingSimulator
 
 __all__ = [
     "StealthBrowserLauncher",
@@ -16,4 +17,5 @@ __all__ = [
     "WAFChallengeSolver",
     "FormFillEngine",
     "FastHarvestClient",
+    "ComplianceReadingSimulator",
 ]
