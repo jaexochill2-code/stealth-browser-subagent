@@ -33,8 +33,11 @@ ENV/
 *.swp
 *.swo
 
-# Output Artifacts
+# Output Artifacts & Databases
 *.png
 *.jpg
 *.jpeg
 *.log
+*.db
+*.sqlite
+*.sqlite3
