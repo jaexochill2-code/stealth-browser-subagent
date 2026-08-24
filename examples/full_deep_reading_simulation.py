@@ -183,29 +183,14 @@ async def run_full_deep_simulation(
             except Exception as e:
                 continue
 
+        # Instead of getting trapped in a single-page mouse loop, advance through all topics
         print("\n" + "=" * 75)
-        print("✅ FULL DOCUMENT READING PASS COMPLETE")
+        print("✅ FIRST DOCUMENT READING PASS COMPLETE")
         print("=" * 75)
-        print("Now entering active ambient reading / inspection mode.")
-        print("• Scrolling gently back to top summary overview.")
-        print(f"• Browser will STAY OPEN on your screen for {keep_alive_minutes} minutes.")
-        print("• You can interact with the page or let it run ambient presence.")
-        print("=" * 75 + "\n")
-
-        # Smoothly scroll back to top overview
-        await kinematics.human_scroll(scroll_delta_y=-1200, steps=15)
-        await asyncio.sleep(2.0)
-        await kinematics.move_to(500, 350)
-
-        # Ambient keep-alive loop: maintains active focus and gentle human presence
-        total_seconds = keep_alive_minutes * 60
-        ambient_step = 10
-        for elapsed in range(0, total_seconds, ambient_step):
-            # Gentle pointer drift to keep session alive and prevent idle timeouts
-            target_x = random.uniform(350, 750)
-            target_y = random.uniform(250, 600)
-            await kinematics.move_to(target_x, target_y)
-            await asyncio.sleep(ambient_step)
+        print("Now dynamically expanding sidebar tree and traversing all remaining topics...")
+        
+        from examples.all_topics_reading_simulation import run_all_topics_simulation
+        await run_all_topics_simulation(start_url=target_url)
 
     except Exception as e:
         print(f"Session notice: {e}")
@@ -215,4 +200,6 @@ async def run_full_deep_simulation(
 
 
 if __name__ == "__main__":
-    asyncio.run(run_full_deep_simulation(keep_alive_minutes=20))
+    from examples.all_topics_reading_simulation import run_all_topics_simulation
+    asyncio.run(run_all_topics_simulation())
+
