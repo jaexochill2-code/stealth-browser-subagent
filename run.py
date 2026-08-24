@@ -51,10 +51,13 @@ def main():
         build_rag_database.main()
         return
 
-    # 3. Visual Interactive Reader
+    # 3. Visual Interactive Deep Reader
     if args.visual:
-        import examples.interactive_live_reading as live_reader
-        asyncio.run(live_reader.main())
+        import examples.full_deep_reading_simulation as deep_reader
+        asyncio.run(deep_reader.run_full_deep_simulation(
+            target_url=target_url,
+            keep_alive_minutes=int(args.minutes or 20)
+        ))
         return
 
     # 4. Background Compliance Reading
