@@ -20,6 +20,9 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 def main():
     parser = argparse.ArgumentParser(description="Stealth Browser & Compliance Reader Suite")
     parser.add_argument("--visual", action="store_true", help="Launch visible desktop Chrome with neon laser pointer")
+    parser.add_argument("--all-pages", action="store_true", help="Crawl and read EVERY individual page in the Confluence space")
+    parser.add_argument("--pages", type=int, default=None, help="Number of pages to crawl and read in sequence")
+    parser.add_argument("--space", type=str, default="Netanel Gabizon", help="Space name to crawl (default: 'Netanel Gabizon')")
     parser.add_argument("--url", type=str, default=None, help="Target document URL to read")
     parser.add_argument("--minutes", type=float, default=2.0, help="Minimum compliance dwell time in minutes (default: 2.0)")
     parser.add_argument("--rag", type=str, default=None, help="Search the local Confluence RAG knowledge base")
@@ -51,16 +54,16 @@ def main():
         build_rag_database.main()
         return
 
-    # 3. Visual Interactive Deep Reader
-    if args.visual:
-        import examples.full_deep_reading_simulation as deep_reader
-        asyncio.run(deep_reader.run_full_deep_simulation(
-            target_url=target_url,
-            keep_alive_minutes=int(args.minutes or 20)
+    # 3. All-Topics Sidebar Tree Navigator & Multi-Page Reader
+    if args.visual or args.all_pages or args.pages:
+        import examples.all_topics_reading_simulation as topics_reader
+        asyncio.run(topics_reader.run_all_topics_simulation(
+            start_url=target_url,
+            max_topics=args.pages
         ))
         return
 
-    # 4. Background Compliance Reading
+    # 5. Background Compliance Reading
     from examples.run_compliance_reading import execute_compliance_read
     print(f"🚀 Starting compliance reading on:\n   {target_url}\n   Min Dwell Time: {args.minutes} mins")
     asyncio.run(execute_compliance_read(target_url=target_url, min_reading_minutes=args.minutes, headless=True))
